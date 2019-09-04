@@ -1,0 +1,256 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Wallpapers</title>
+    <style>
+        header{
+            background: url(image/cam.jpg);
+            background-size: cover;
+            background-position: center;
+            min-height: 1000px;
+        }
+
+        .section{
+            padding-top: 4vw;
+            padding-bottom: 4vw; 
+        }
+
+        .tabs .indicator{
+            background-color: #1a237e;
+        }
+
+        .tabs .tab a:focus, .tabs .tab a:focus.active{
+            background-color: transparent;
+        }
+
+        @media screen and (max-width: 670px) {
+            header{
+                min-height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!--Header-->
+    <header>
+        <!--navbar-->
+        <nav class="nav-wrapper transparent z-depth-0">
+            <div class="container">
+                <a href="" class="brand-logo">Wall-O-Maniac</a>
+                <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#photos">Photos</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Book Your Shoot</a></li>
+                    <li><a href="Login.html">Login/Register</a></li>
+                    <li><a href="#" class="tooltipped btn-floating btn-small transparent z-depth-0" data-tooltip="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a></li>
+                    <li><a href="#" class="tooltipped btn-floating btn-small transparent z-depth-0" data-tooltip="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a></li>
+                    <li><a href="#" class="tooltipped btn-floating btn-small transparent z-depth-0" data-tooltip="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a></li>
+                </ul>
+                <ul class="sidenav grey lighten-2" id="mobile-nav">
+                    <li><a href="#photos">Photos</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Book Your Shoot</a></li>
+                    <li><a href="Login.html">Login/Register</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!--Photo Grid-->
+    <section class="container section scrollspy" id="photos">
+        <div class="row">
+            <div class="col s12 l4">
+                <img src="image/rainbowsix.jpg" alt="" class="responsive-img materialboxed">
+            </div>
+            <div class="col s12 l6 offset-l1">
+                <h3 class="indigo-text text-darken-4">Rainbow Six Siege</h3>
+                <p>Tom Clancy's Rainbow Six Siege is an online tactical shooter video game developed by Ubisoft Montreal and 
+                   published by Ubisoft. It was released worldwide for Microsoft Windows, PlayStation 4, and Xbox One on December 
+                   1, 2015. The game puts heavy emphasis on environmental destruction and cooperation between players.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 l4 push-l7 offset-l1">
+                <img src="image/watchdog.jpg" alt="" class="responsive-img materialboxed">
+            </div>
+            <div class="col s12 l6 pull-l5 right-align offset-l1">
+                <h3 class="indigo-text text-darken-4">Watch dogs</h3>
+                <p>Watch Dogs is an action-adventure video game developed by Ubisoft Montreal and published by Ubisoft. It was released 
+                    worldwide on May 27, 2014 for Microsoft Windows, PlayStation 3, PlayStation 4, Xbox 360, and Xbox One. A Wii U version
+                    was released in November 2014.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 l4">
+                <img src="image/witcher3.jpg" alt="" class="responsive-img materialboxed">
+            </div>
+            <div class="col s12 l6 offset-l1">
+                <h3 class="indigo-text text-darken-4">The Witcher 3</h3>
+                <p>The Witcher 3: Wild Hunt is a 2015 action role-playing game developed and published by CD Projekt, based on The Witcher
+                    series of fantasy novels by Andrzej Sapkowski. It is the sequel to the 2011 game The Witcher 2: Assassins of Kings.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!--Parallax-->
+    <div class="parallax-container">
+        <div class="parallax">
+            <img src="image/cam2.jpg" alt="" class="responsive-img">
+        </div>
+    </div>
+
+    <!--Tabs-->
+    <section class="container section scrollspy" id="services">
+            <div class="row">
+                <div class="col s12 l4">
+                    <h2 class="indigo-text text-darken-4">What we do...</h2>
+                    <p>Here we'll discuss about what we do on this site and which services we provide to customers.</p>
+                </div>
+                <div class="col s12 l6 offset-l2">
+                    <ul class="tabs">
+                        <li class="tab col s6">
+                            <a href="#wallpaper" class="indigo-text text-darken-4">Wallpaper</a>
+                        </li>
+                        <li class="tab col s6">
+                            <a href="#photography" class="indigo-text text-darken-4">Photography</a>
+                        </li>
+                    </ul>
+                    <div class="col s12" id="wallpaper">
+                        <p class="flow-text indigo-text text-darken-4">WALLPAPER</p>
+                        <p>Wallpaper is a material used in interior decoration to decorate the interior walls of domestic and public buildings.
+                                It is usually sold in rolls and is applied onto a wall using wallpaper paste.</p>
+                    </div>
+                    <div class="col s12" id="photography">
+                        <p class="flow-text indigo-text text-darken-4">PHOTOGRAPHY</p>
+                        <p>Photography is the art, application and practice of creating durable images by recording light or other electromagnetic 
+                            radiation, either electronically by means of an image sensor, or chemically by means of a light-sensitive material such as photographic film.</p>
+                    </div>
+                </div>
+            </div>
+    </section>
+    
+    <!--Parallax-->
+    <div class="parallax-container">
+        <div class="parallax">
+            <img src="image/cam3.jpg" alt="" class="responsive-img">
+        </div>
+    </div>
+
+    <!--Form-->
+    
+    <section class="section container scrollspy" id="contact">
+        <div class="row">
+            <div class="col s12 l5">
+                <h3 class="indigo-text text-darken-4">Book Your Shoot</h3>
+                <p>Apart from Uploading Wallpaper we also create our own Wallpapers.</p>
+                <p>We also create our Wallpapers with images which are captured by us.</p>
+                <p>We also do the photography on demand.</p>
+                <p>So what are you waiting for? <b>Just Book Your Shoot Now</b></p>
+            </div>
+            <div class="col s12 l5 offset-l2">
+                <form action="">
+                    <div class="input-field">
+                        <i class="material-icons prefix">email</i>
+                        <input type="email" id="email">
+                        <label for="email">Email Id</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">message</i>
+                        <textarea id="message" cols="30" rows="10" class="materialize-textarea"></textarea>
+                        <label for="message">What the shoot is for?</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-calendar-check-o prefix" aria-hidden="true"></i>
+                        <input type="text" id="date" class="datepicker">
+                        <label for="date">Choose a date for the event</label>
+                    </div>
+                    <div class="input-field">
+                        <p>Services Required</p>
+                        <p>
+                            <label>
+                                <input type="checkbox">
+                                <span>Photography</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox">
+                                <span>Videography</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox">
+                                <span>Editing</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field center">
+                        <button class="btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!--Footer-->
+    <footer class="page-footer grey darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 l6">
+                    <h5>About Us</h5>
+                    <p>We at Wall-O-Maniac create stunning wallpapers here.</p>
+                    <p>We fulfill your requirements ASAP.</p>
+                    <p>We accept party Orders</p>
+                </div>
+                <div class="col s12 l4 offset-l2">
+                    <h5>Connect</h5>
+                    <ul>
+                        <li><a href="#" class="grey-text text-lighten-3">Facebook</a></li>
+                        <li><a href="#" class="grey-text text-lighten-3">Twitter</a></li>
+                        <li><a href="#" class="grey-text text-lighten-3">Instagram</a></li>
+                        <li><a href="#" class="grey-text text-lighten-3">Linked In</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+            <div class="container center-align">&copy; 2018 Wall-O-Maniac</div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://kit.fontawesome.com/c76ce5331f.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+            $('.materialboxed').materialbox();
+            $('.parallax').parallax();
+            $('.tabs').tabs();
+            $('.datepicker').datepicker({
+                minDate : new Date()
+            });
+            $('.tooltipped').tooltip();
+            $('.scrollspy').scrollSpy();
+1        });
+    </script>
+</body>
+</html>
