@@ -58,7 +58,7 @@ app.post('/register', function(request, response) {
         if (err) throw err;
         console.log("User entered");
         console.log(user);
-        response.end('User Registered');
+        response.sendFile(__dirname + '/login/index.html');
     });
 });
 app.listen(4900, (err, start) => { if (!err) { console.log("Serever is running on port 4900"); } });
