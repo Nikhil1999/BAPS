@@ -11,7 +11,9 @@ var url = "mongodb://localhost:27017";
 
 const assert = require('assert');
 
-var dbName = null;
+var db = null;
+const dbName = 'baps';
+const collectionName = 'users';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // End of variable declaration
@@ -26,16 +28,16 @@ const expressListner = function (port) {
     });
 }
 // Mongodb connection definition
-const dbConnection = function (db) {
+const dbConnection = function (dbName) {
     client.connect(function (err) {
         assert.equal(null, err);
         console.log("Mongo Connected to Server Successfully !");
-        dbName = client.db(db);
+        db = client.db(dbName);
         client.close();
     });
 }
 // Authentication page definition
-const goAuthenticate = function (subFolder) {
+const goAuthenticate = function () {
     app.get('/', function (req, res) {
         res.redirect('/login');
     });
@@ -53,32 +55,45 @@ const registerUser = function (callback) {
             "fname": req.body.firstname,
             "lname": req.body.lastname,
             "email": req.body.email,
-            "password": req.body.password
+            "password": req.body.password,
+            "isactive": 0
         };
-        const collectionName = 'users';
-        dbName.collection(collectionName).insertOne(user, function (err, result) {
+        const collection = db.collection(collectionName);
+        collection.findOne({ email: user.email }, function (err, result) {
             assert.equal(err, null);
-            console.log("User registerd successfully !");
-            callback(result);
-            res.redirect('/login');
+            if (result == null) {
+                collection.insertOne(user, function (err, result) {
+                    assert.equal(err, null);
+                    collection.findOne({ email: user.email }, function (err, result) {
+                        assert.equal(err, null);
+                        console.log(result._id + " User registerd successfully on " + new Date().toISOString());
+                    });
+                    res.redirect('/login');
+                });
+            }
+            else {
+                res.end("User already registered. Please forward to login page !");
+                // res.redirect('/');
+            }
         });
     });
 }
 // verify user definition
-const loginUser = function () {
+const loginUser = function (callback) {
     app.post('/login', function (req, res) {
         const user = {
             "email": req.body.email,
             "password": req.body.password
         }
-        const collectionName = 'users';
-        dbName.collection(collectionName).findOne({ email: user.email, password: user.password }, { email: 1, password: 1, _id: 0 }, function(err, result) {
+        const collection = db.collection(collectionName);
+        collection.findOne({ email: user.email, password: user.password }, function (err, result) {
+            assert.equal(err, null);
             if (result == null) {
                 res.end("Invalid Email or Password");
-            } else if (result.email == user.email && result.password == user.password){
+            } else if (result.email == user.email && result.password == user.password && result.isactive == 1) {
                 res.end("Sucessfully Loged In !");
             } else {
-                res.end("An error occured !");  
+                res.end("Please verify your account !");
             }
         });
     });
@@ -88,10 +103,10 @@ const loginUser = function () {
 // Start of function calls
 
 expressListner(portNumber);
-dbConnection('baps');
+dbConnection(dbName);
 app.use(express.urlencoded({ extended: true }));
-goAuthenticate('login');
+goAuthenticate();
 loginUser();
-registerUser(function () { });
+registerUser();
 
 //End of function calls
