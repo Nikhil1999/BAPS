@@ -97,7 +97,7 @@ const loginUser = function (callback) {
             } else if (! result.isVerified) {
                 res.end("Please verify your account !");
             }else if (result.email == user.email && result.password == user.password) {
-                console.log(result._id + "user logged in at " + new Date().toISOString());
+                console.log(result._id + " User logged in at " + new Date().toISOString());
                 res.end("Sucessfully Logged In !");
             } else {
                 res.end("An unknown error occured");
