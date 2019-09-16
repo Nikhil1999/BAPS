@@ -23,7 +23,7 @@ const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology:
 const expressListner = function (port) {
     app.listen(port, function (err, start) {
         if (!err) {
-            console.log("Express Server is running on port 4900");
+            console.log("Express Server is running on port 4900 from " + new Date().toISOString());
         }
     });
 }
@@ -31,7 +31,7 @@ const expressListner = function (port) {
 const dbConnection = function (dbName) {
     client.connect(function (err) {
         assert.equal(null, err);
-        console.log("Mongo Connected to Server Successfully !");
+        console.log("Mongo Connected to Server Successfully at " + new Date().toISOString());
         db = client.db(dbName);
         client.close();
     });
@@ -52,11 +52,12 @@ const goAuthenticate = function () {
 const registerUser = function (callback) {
     app.post('/register', function (req, res) {
         var user = {
-            "fname": req.body.firstname,
-            "lname": req.body.lastname,
+            "firstName": req.body.firstname,
+            "lastName": req.body.lastname,
             "email": req.body.email,
             "password": req.body.password,
-            "isactive": 0
+            "isVerified": 0,
+            "isActive": 1
         };
         const collection = db.collection(collectionName);
         collection.findOne({ email: user.email }, function (err, result) {
@@ -89,11 +90,17 @@ const loginUser = function (callback) {
         collection.findOne({ email: user.email, password: user.password }, function (err, result) {
             assert.equal(err, null);
             if (result == null) {
+                console.log("invalid passowrd attempt at " + new Date().toISOString());
                 res.end("Invalid Email or Password");
-            } else if (result.email == user.email && result.password == user.password && result.isactive == 1) {
-                res.end("Sucessfully Loged In !");
-            } else {
+            } else if (! result.isActive) {
+                res.end("Account Deleted !");
+            } else if (! result.isVerified) {
                 res.end("Please verify your account !");
+            }else if (result.email == user.email && result.password == user.password) {
+                console.log(result._id + "user logged in at " + new Date().toISOString());
+                res.end("Sucessfully Logged In !");
+            } else {
+                res.end("An unknown error occured");
             }
         });
     });
