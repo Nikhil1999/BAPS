@@ -57,6 +57,7 @@ const registerUser = function (callback) {
             "email": req.body.email,
             "password": req.body.password,
             "isVerified": 0,
+            "isActive": 1 
         };
         const collection = db.collection(collectionName);
         collection.findOne({ email: user.email }, function (err, result) {
