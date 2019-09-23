@@ -1,13 +1,13 @@
 // Start of variable declaration
 // express variables declaration
 
-var express = require('express');
-var app = express();
-var portNumber = 4900;
+const express = require('express');
+const app = express();
+const portNumber = 4900;
 
 // mongo variables declaration
 const MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017";
+const url = "mongodb://localhost:27017";
 
 const assert = require('assert');
 
@@ -57,7 +57,7 @@ const registerUser = function (callback) {
             "email": req.body.email,
             "password": req.body.password,
             "isVerified": 0,
-            "isActive": 1 
+            "isActive": 1
         };
         const collection = db.collection(collectionName);
         collection.findOne({ email: user.email }, function (err, result) {
@@ -92,17 +92,25 @@ const loginUser = function (callback) {
             if (result == null) {
                 console.log("invalid passowrd attempt at " + new Date().toISOString());
                 res.end("Invalid Email or Password");
-            } else if (! result.isActive) {
+            } else if (!result.isActive) {
                 res.end("Account Deleted !");
-            } else if (! result.isVerified) {
+            } else if (!result.isVerified) {
                 res.end("Please verify your account !");
-            }else if (result.email == user.email && result.password == user.password) {
+            } else if (result.email == user.email && result.password == user.password) {
                 console.log(result._id + " User logged in at " + new Date().toISOString());
                 res.end("Sucessfully Logged In !");
             } else {
                 res.end("An unknown error occured");
             }
         });
+    });
+}
+
+//Exceptions
+const uncaughtExc = function () {
+    process.on("uncaughtException", function (err, result) {
+        console.log("UncaughtException at " + new Date().toISOString());
+        console.log(err.stack + "");
     });
 }
 
@@ -115,5 +123,6 @@ app.use(express.urlencoded({ extended: true }));
 goAuthenticate();
 loginUser();
 registerUser();
+uncaughtExc();
 
 //End of function calls
