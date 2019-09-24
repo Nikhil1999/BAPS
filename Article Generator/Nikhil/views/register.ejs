@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 m10 l8 offset-m1 offset-l2">
+            <div class="card hoverable">
+                <form action="/register" method="post" id="form_register">
+                    <div class="card-content center-align">
+                        <span class="card-title center-align">
+                            <h3>Register</h3>
+                        </span>
+                        <% include ./partials/messages %>
+                        <div class="input-field">
+                            <i class="material-icons prefix">person</i>
+                            <input type="text" id="firstname" name="firstname" value="<%= typeof firstname != 'undefined' ? firstname : '' %>" required>
+                            <label for="firstname">First Name</label>
+                        </div>
+                        <div class="input-field">
+                                <i class="material-icons prefix">edit</i>
+                                <input type="text" id="lastname" name="lastname" value="<%= typeof lastname != 'undefined' ? lastname : '' %>">
+                                <label for="lastname">Last Name</label>
+                            </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input type="email" id="email" name="email" value="<%= typeof email != 'undefined' ? email : '' %>" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix" aria-hidden="true">lock</i>
+                            <input type="password" id="password" name="password" minlength="8" value="<%= typeof password != 'undefined' ? password : '' %>" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <p>Already have an account? <a href="/login" class="amber-text text-darken-2" name="logincard">Login now</a></p>
+                    </div>
+                    <div class="card-action center-align">
+                        <input type="submit" id="submit_register" name="Register" hidden>
+                        <a id="register" class="btn-large amber darken-2 waves-effect waves-light">Register<i class="material-icons right">arrow_forward</i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#register').on('click', function(){
+            $('#submit_register').trigger('click');
+        });
+    });
+</script>
