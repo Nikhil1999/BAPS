@@ -24,7 +24,7 @@ module.exports = function(passport) {
                         if(isMatch) {
                             return done(null, user);
                         } else {
-                            return done(null, false, { message: 'Combination of email and password is incorrect'});
+                            return done(null, false, { message: 'Enter valid email or password'});
                         }                       
                     });
                 })

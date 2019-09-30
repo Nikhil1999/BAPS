@@ -10,6 +10,14 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    reset_password_token: {
+        type: String,
+        default: null
+    },
+    reset_password_expires: {
+        type: Date,
+        default: null
+    },
     firstname: {
         type: String,
         required: true
@@ -18,17 +26,9 @@ const UserSchema = new Schema({
         type: String,
         default: ''
     },
-    last_login: {
-        type: Date,
-        default: Date.now
-    },
-    last_updated: {
-        type: Date,
-        default: Date.now
-    },
     created_on: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     }
 });
 
