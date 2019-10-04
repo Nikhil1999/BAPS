@@ -92,7 +92,7 @@ router.post('/register', function(request, response) {
                 //Hash Password
                 bcrypt.genSalt(10, function(error, salt){
                     bcrypt.hash(newUser.password, salt, function(error, hash){
-                        if(error) console.log(error);
+                        if(error) return console.log(error); // we should return from here rather than going ahead if error is there (Dishang updated this)
                         newUser.password = hash;
                         newUser.save().then(function(user){
                             response.redirect('/login');

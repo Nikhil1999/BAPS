@@ -46,13 +46,9 @@ app.use('/', require('./routes/routes'));
 app.use('/login', require('./routes/routes'));
 app.use('/register', require('./routes/routes'));
 
-//Express Server Connection
-app.listen(3000, function(){
-    console.log("Server is now running");
-    console.log("Listening to port no : 3000");
 
-    //MongoDB Connection
-    mongoose.connect('mongodb://localhost/baps', {useNewUrlParser: true});
+//mongodb connection
+mongoose.connect('mongodb://localhost/baps', {useNewUrlParser: true});
     var mongoDB = mongoose.connection;
 
     mongoDB.on('error', function(){
@@ -61,5 +57,12 @@ app.listen(3000, function(){
 
     mongoDB.once('open', function(){
         console.log("MongoDB connected successfully");
+        //Express Server Connectionnode \
+
+        app.listen(3000, function(){
+            console.log("Server is now running");
+            console.log("Listening to port no : 3000");
+        });
     });
-});
+
+
