@@ -1,2 +1,4 @@
-<% if(typeof errors != 'undefined') { errors.forEach(function(error){ %> <a class="btn red darken-2 waves-effect waves-light"><%= error.msg %></a> <% }); } %>
+<% if(typeof errors != 'undefined') { errors.forEach(function(error){ %> <a class="btn red darken-2 waves-effect waves-light"><%= error.message %></a> <% }); } %>
 <% if(error != '') { %> <a class="btn red darken-2 waves-effect waves-light"><%= error %></a> <% } %>
+<% if(success_message != '') { %> <a class="btn green darken-2 waves-effect waves-light"><%= success_message %></a> <% } %>
+<% if(error_message != '') { %> <a class="btn red darken-2 waves-effect waves-light"><%= error_message %></a> <% } %>
