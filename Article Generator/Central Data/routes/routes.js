@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const validator = require('validator');
 
 //User Model (MongoDB)
 const User = require('../models/User');
@@ -69,7 +70,12 @@ router.get('/register', function(request, response) {
 //Registeration Page Handler (For Handling Form Data)
 router.post('/register', function(request, response) {
     //Map All The Form Data To Variables
-    const {firstname, lastname, email, password, confirmpassword} = request.body;    
+    var firstname = request.body.firstname.toString();
+    var lastname = request.body.lastname.toString();
+    var email = request.body.email.toString();
+    var password = request.body.password.toString();
+    var confirmpassword = request.body.confirmpassword.toString();
+    // const {firstname, lastname, email, password, confirmpassword} = request.body;    
 
     //Creating Array For All The Errors
     let errors = [];
@@ -77,13 +83,23 @@ router.post('/register', function(request, response) {
     if(!firstname) {
         errors.push({ message: 'Please enter your firstname'});
     } else {
+        firstname = firstname.trim();
         if(firstname.length > 30) {
             errors.push({ message: 'Maximum length of firstname can be 30'});
         }
     }
 
+    if(lastname) {
+        lastname = lastname.trim();
+    }
+
     if(!email) {
         errors.push({ message: 'Please enter your email'});
+    } else {
+        email = email.trim();
+        if(!validator.isEmail(email)) {
+            errors.push({ message: 'Please enter valid email address'});
+        }
     }
 
     if(!password) {
@@ -248,64 +264,77 @@ router.post('/forgot', function(request, response) {
     } else {
         //User Not Authenticated
 
-        //Check User Exists
-        User.findOne({email : request.body.email}).then(function(user){
-            if(user) {
-                //User Exists
-                crypto.randomBytes(48, function(error, buffer) {
-                    if(buffer) {
-                        //Buffer For Token Created
-                        var token = buffer.toString('hex');
-                        user.reset_password_token = token;
-                        user.reset_password_expires = Date.now() + 120000; // + 2 minutes
+        var email = request.body.email.toString();
 
-                        //Inserting Token Into The Database
-                        user.save().then(function(user){
-                            //First Allow Less Secure App Access In Your Email Account
-                            //For Gmail Visit : https://myaccount.google.com/lesssecureapps
+        if(!email) {
+            request.flash('error_message', 'Please enter your email');
+            response.redirect('/forgot');
+        } else {
+            email = email.trim();
+            if(!validator.isEmail(email)) {
+                request.flash('error_message', 'Please enter valid email address');
+                response.redirect('/forgot');
+            } else {
+                //Check User Exists
+                User.findOne({email : email}).then(function(user){
+                    if(user) {
+                        //User Exists
+                        crypto.randomBytes(48, function(error, buffer) {
+                            if(buffer) {
+                                //Buffer For Token Created
+                                var token = buffer.toString('hex');
+                                user.reset_password_token = token;
+                                user.reset_password_expires = Date.now() + 120000; // + 2 minutes
 
-                            //Mail Setup
-                            var smtp = nodemailer.createTransport({
-                                service: 'Gmail',
-                                auth: {
-                                    user: 'bapsvgec@gmail.com',
-                                    pass: 'baps@9898'
-                                }
-                            });
+                                //Inserting Token Into The Database
+                                user.save().then(function(user){
+                                    //First Allow Less Secure App Access In Your Email Account
+                                    //For Gmail Visit : https://myaccount.google.com/lesssecureapps
 
-                            var mail = {
-                                to: user.email,
-                                from: 'bapsvgec@gmail.com',
-                                subject: 'BAPS Password Reset',
-                                // text: 'Reset Password Link : ' + request.headers.host + '/reset/' + token,
-                                html: '<p>Reset Password Link : <a href="http://' + request.headers.host + '/reset/' + token + '">Click Here</a></p>'
-                            };
+                                    //Mail Setup
+                                    var smtp = nodemailer.createTransport({
+                                        service: 'Gmail',
+                                        auth: {
+                                            user: 'bapsvgec@gmail.com',
+                                            pass: 'baps@9898'
+                                        }
+                                    });
 
-                            //Sending Mail
-                            smtp.sendMail(mail, function(error){
-                                if(error) {
-                                    //Error Sending Mail
-                                    request.flash('error_message', 'Unable to send email. Please try again later');
-                                    console.log(error);
-                                } else {
-                                    //Mail Send Successfully
-                                    request.flash('success_message', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                                }
+                                    var mail = {
+                                        to: user.email,
+                                        from: 'bapsvgec@gmail.com',
+                                        subject: 'BAPS Password Reset',
+                                        // text: 'Reset Password Link : ' + request.headers.host + '/reset/' + token,
+                                        html: '<p>Reset Password Link : <a href="http://' + request.headers.host + '/reset/' + token + '">Click Here</a></p>'
+                                    };
+
+                                    //Sending Mail
+                                    smtp.sendMail(mail, function(error){
+                                        if(error) {
+                                            //Error Sending Mail
+                                            request.flash('error_message', 'Unable to send email. Please try again later');
+                                            console.log(error);
+                                        } else {
+                                            //Mail Send Successfully
+                                            request.flash('success_message', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                                        }
+                                        response.redirect('/forgot');
+                                    });
+                                });
+                            } else {
+                                //Unable To Create Buffer For Token
+                                request.flash('error_message', 'Unable to reset your password. Please try again later');
                                 response.redirect('/forgot');
-                            });
+                            }
                         });
                     } else {
-                        //Unable To Create Buffer For Token
-                        request.flash('error_message', 'Unable to reset your password. Please try again later');
+                        //User Not Exists
+                        request.flash('error_message', 'Email is not registered');
                         response.redirect('/forgot');
                     }
-                  });
-            } else {
-                //User Not Exists
-                request.flash('error_message', 'Email is not registered');
-                response.redirect('/forgot');
+                });
             }
-        });
+        }
     }
 });
 
@@ -330,10 +359,11 @@ router.get('/reset/:token', function(request, response) {
 //Reset
 router.post('/reset/:token', function(request, response) {
     if(!request.isAuthenticated()) {
-        const {password, confirmpassword} = request.body;
+        var password = request.body.password.toString();
+        var confirmpassword = request.body.confirmpassword.toString();
 
         //User Not Authenticated
-        User.findOne({ reset_password_token: request.params.token }, function(error, user){
+        User.findOne({ reset_password_token: request.params.token.toString() }, function(error, user){
             if(user) {
                 if(user.reset_password_expires) {
                     if(user.reset_password_expires > Date.now()) {
