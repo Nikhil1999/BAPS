@@ -50,7 +50,7 @@ app.use('/', require('./routes/routes'));
 app.use('/login', require('./routes/routes'));
 app.use('/register', require('./routes/routes'));
 
-//Express Server Connection
+//Express  Server Connection
 app.listen(3000, function(){
     console.log("Server is now running");
     console.log("Listening to port no : 3000");
@@ -58,7 +58,7 @@ app.listen(3000, function(){
     //MongoDB Connection
     mongoose.connect('mongodb://localhost/baps', {useNewUrlParser: true});
     var mongoDB = mongoose.connection;
-
+ 
     mongoDB.on('error', function(){
         console.log("MongoDB connection failed");
     });

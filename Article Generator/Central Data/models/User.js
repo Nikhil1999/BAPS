@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     },
     lastname: {
         type: String,
-        default: ''
+        required: true
     },
     created_on: {
         type: Date,

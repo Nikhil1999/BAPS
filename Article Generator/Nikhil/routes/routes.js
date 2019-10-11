@@ -139,13 +139,11 @@ router.post('/register', function(request, response) {
                 //Create A Hashed Password
                 bcrypt.genSalt(10, function(error, salt){
                     bcrypt.hash(newUser.password, salt, function(error, hash){
-<<<<<<< HEAD
                         if(error) return console.log(error); // we should return from here rather than going ahead if error is there (Dishang updated this)
                         newUser.password = hash;
                         newUser.save().then(function(user){
                             response.redirect('/login');
                         });
-=======
                         if(error) {
                             //Push Error Into The Array
                             errors.push({ msg: 'Unable to register your account. Please try again later'});
@@ -183,7 +181,6 @@ router.post('/register', function(request, response) {
                                 }
                             });
                         }
->>>>>>> fe50bb872ca66a0fc24c27b095d84173502d1cd8
                     });
                 });
             }

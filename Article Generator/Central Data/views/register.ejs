@@ -14,12 +14,12 @@
                                 </div>
                                 <div class="input-field">
                                     <i class="material-icons prefix">person</i>
-                                    <input type="text" id="firstname" name="firstname" value="<%= typeof firstname != 'undefined' ? firstname : '' %>" required>
+                                    <input type="text" id="firstname" name="firstname" minlength="2" maxlength="30" value="<%= typeof firstname != 'undefined' ? firstname : '' %>" required>
                                     <label for="firstname">First Name</label>
                                 </div>
                                 <div class="input-field">
                                         <i class="material-icons prefix">edit</i>
-                                        <input type="text" id="lastname" name="lastname" value="<%= typeof lastname != 'undefined' ? lastname : '' %>">
+                                        <input type="text" id="lastname" name="lastname" minlength="2" maxlength="30" value="<%= typeof lastname != 'undefined' ? lastname : '' %>" required>
                                         <label for="lastname">Last Name</label>
                                     </div>
                                 <div class="input-field">
@@ -29,12 +29,12 @@
                                 </div>
                                 <div class="input-field">
                                     <i class="material-icons prefix" aria-hidden="true">lock</i>
-                                    <input type="password" id="password" name="password" minlength="8" value="<%= typeof password != 'undefined' ? password : '' %>" required>
+                                    <input type="password" id="password" name="password" minlength="8" required>
                                     <label for="password">Password</label>
                                 </div>
                                 <div class="input-field">
                                     <i class="material-icons prefix" aria-hidden="true">lock</i>
-                                    <input type="password" id="confirmpassword" name="confirmpassword" minlength="8" value="<%= typeof confirmpassword != 'undefined' ? confirmpassword : '' %>" required>
+                                    <input type="password" id="confirmpassword" name="confirmpassword" minlength="8" required>
                                     <label for="confirmpassword">Confirm Password</label>
                                 </div>
                                 <p>Already have an account? <a href="/login" class="amber-text text-darken-2" name="logincard">Login now</a></p>

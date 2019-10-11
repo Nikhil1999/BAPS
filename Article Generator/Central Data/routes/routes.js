@@ -84,13 +84,34 @@ router.post('/register', function(request, response) {
         errors.push({ message: 'Please enter your firstname'});
     } else {
         firstname = firstname.trim();
-        if(firstname.length > 30) {
-            errors.push({ message: 'Maximum length of firstname can be 30'});
+        if(!validator.isAlpha(firstname)) { 
+            errors.push({ message: 'Please enter alphabets only'});
+        } else {
+            if(firstname.length < 2) {
+                errors.push({ message: 'Minimum length of firstname can be 2'});
+            } else {
+                if(firstname.length > 30) {
+                    errors.push({ message: 'Maximum length of firstname can be 30'});
+                }
+            }
         }
     }
 
-    if(lastname) {
+    if(!lastname) {
+        errors.push({ message: 'Please enter your lastname'});
+    } else {
         lastname = lastname.trim();
+        if(!validator.isAlpha(lastname)) { 
+            errors.push({ message: 'Please enter alphabets only'});
+        } else {
+            if(lastname.length < 2) {
+                errors.push({ message: 'Minimum length of lastname can be 2'});
+            } else {
+                if(lastname.length > 30) {
+                    errors.push({ message: 'Maximum length of lastname can be 30'});
+                }
+            }
+        }
     }
 
     if(!email) {
@@ -127,9 +148,7 @@ router.post('/register', function(request, response) {
             errors,
             firstname,
             lastname,
-            email,
-            password,
-            confirmpassword
+            email
         });
     } else {
         //Errors Are Not Present
@@ -147,8 +166,7 @@ router.post('/register', function(request, response) {
                     errors,
                     firstname,
                     lastname,
-                    email,
-                    password
+                    email
                 });
             } else {
                 //User Is Not Registered
@@ -173,8 +191,7 @@ router.post('/register', function(request, response) {
                                 errors,
                                 firstname,
                                 lastname,
-                                email,
-                                password
+                                email
                             });
                         } else {
                             //Assign This Hashed Password As A Password For This User
@@ -188,15 +205,14 @@ router.post('/register', function(request, response) {
                                     response.redirect('/login');
                                 } else {
                                     //Push Error Into The Array
-                                    errors.push({ msg: 'Unable to register your account. Please try again later'});
+                                    errors.push({ message: 'Unable to register your account. Please try again later'});
 
                                     //Send All The Data Back Along With The Error
                                     response.render('register', {
                                         errors,
                                         firstname,
                                         lastname,
-                                        email,
-                                        password
+                                        email
                                     });
                                 }
                             });
