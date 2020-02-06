@@ -114,6 +114,25 @@ const uncaughtExc = function () {
     });
 }
 
+// save image sent from application
+const save_picture = function(callback) {
+    app.post('/upload_picture', function(req, res) {
+        const user = {
+            "email": req.body.email,
+            "picture": req.body.picture
+        }
+        const collection = db.collection(collectionName);
+        collection.findOne({email: user.email}, function(err, result) {
+            assert.equal(err, null);
+            if (result == null) {
+                res.send("Invalid email id");
+            } else {
+                console.log(user.email, " ", user.picture);
+            }
+        });
+    });
+}
+
 // End of function definition
 // Start of function calls
 
@@ -123,6 +142,7 @@ app.use(express.urlencoded({ extended: true }));
 goAuthenticate();
 loginUser();
 registerUser();
+save_picture();
 uncaughtExc();
 
 //End of function calls
