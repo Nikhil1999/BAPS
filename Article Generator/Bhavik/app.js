@@ -9,6 +9,7 @@ const portNumber = 4900;
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017";
 
+const fs = require('fs');
 const assert = require('assert');
 
 var db = null;
@@ -127,7 +128,7 @@ const save_picture = function(callback) {
             if (result == null) {
                 res.send("Invalid email id");
             } else {
-                console.log(user.email, " ", user.picture);
+                fs.writeFile("image.png", user.picture, 'base64', function(err) {});
             }
         });
     });
